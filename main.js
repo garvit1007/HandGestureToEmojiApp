@@ -20,5 +20,46 @@ function modelLoaded(){
     console.log("Model loaded");
 }
 
-prediction_1 = "";
-prediction_2 = "";
+prediction = "";
+
+function speak(){
+    var synth = window.speechSynthesis;
+    speak_data_1 = to_Speak ;
+    var utterThis = new SpeechSynthesisUtterance(speak_data_1);
+    synth.speak(utterThis);
+}
+
+function check()
+{
+    img = document.getElementById("capture_img");
+    classifier.classify(img, gotResult)
+}
+
+function gotResult(error, results) {
+    if(error) {
+        console.error(error);
+    }
+    else {
+        console.log(results);
+        document.getElementById("result_gesture_name").innerHTML = results[0].label;
+        gesture = results[0].label;
+        to_Speak = "";
+        if(gesture == "Victory")
+        {
+            to_Speak = "That was a marvelous victory";
+            document.getElementById("update_gesture").innerHTML = "&#9996;";
+            
+        }
+        else if(gesture == "Amazing")
+        {
+            to_Speak = "This is looking amazing";
+            document.getElementById("update_gesture").innerHTML = "&#128076;";
+        }
+        else if(gesture == "Best")
+        {
+            to_Speak = "All the best";
+            document.getElementById("update_gesture").innerHTML = "&#128077;";
+        }
+        speak();
+    }
+}
